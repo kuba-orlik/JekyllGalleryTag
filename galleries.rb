@@ -1,8 +1,8 @@
 # Jekyll GalleryTag
-# 
+#
 # Automatically creates thumbnails for a directory of images.
 # Adds a "gallery" Liquid tag
-# 
+#
 # Author: Matt Harzewski
 # Copyright: Copyright 2013 Matt Harzewski
 # License: GPLv2 or later
@@ -106,10 +106,6 @@ module Jekyll
 	# Recover from strange exception when starting server without --auto
 	class GalleryFile < StaticFile
 		def write(dest)
-			begin
-				super(dest)
-			rescue
-			end
 			true
 		end
 	end
@@ -136,7 +132,7 @@ module Jekyll
 
 	 		Dir.glob(File.join(@gallery_dir, "**", "*.{png,jpg,jpeg,gif}")).each do |file|
 	 			if !File.basename(file).include? "-thumb"
-	 				name = File.basename(file).sub(File.extname(file), "-thumb#{File.extname(file)}")
+	 				name = file.sub(@gallery_dir, "").sub(File.extname(file), "-thumb#{File.extname(file)}")
 	 				thumbname = File.join(@gallery_dest, name)
 	                # Keep the thumb files from being cleaned by Jekyll
 	                site.static_files << Jekyll::GalleryFile.new(site, site.dest, @config['dir'], name )
